@@ -3,6 +3,7 @@ var app = express();
 app.use(express.logger());
 
 app.get('/', function(request, response) {
+  console.log("Sending");
   response.send('Hello World! Let us rejoice! Twice!'+process.env.PORT);
 });
 
