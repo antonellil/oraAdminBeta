@@ -3,7 +3,7 @@ var app = express();
 app.use(express.logger());
 
 app.get('/', function(request, response) {
-  response.send('Hello World! Let us rejoice! Twice!');
+  response.send('Hello World! Let us rejoice! Twice!'+process.env.PORT);
 });
 
 var port = process.env.PORT || 5000;
