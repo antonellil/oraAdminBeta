@@ -6,7 +6,6 @@ app.use(express.logger());
 
 console.log(process.env.DATABASE_URL);
 
-/*
 pg.connect(process.env.DATABASE_URL, function(err, client) {
   var query = client.query('SELECT * FROM venues');
 
@@ -14,7 +13,7 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
     console.log(JSON.stringify(row));
   });
 });
-*/
+
 
 app.get('/', function(request, response) {
   console.log("Sending");
