@@ -1,6 +1,18 @@
 var express = require("express");
+var pg = require('pg');
+
 var app = express();
 app.use(express.logger());
+
+
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  var query = client.query('SELECT * FROM venues');
+
+  query.on('row', function(row) {
+    console.log(JSON.stringify(row));
+  });
+});
+
 
 app.get('/', function(request, response) {
   console.log("Sending");
