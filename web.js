@@ -16,7 +16,7 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
   });
 	});
 
-  response.send('Hello World! Let us rejoice! Twice!'+process.env.PORT);
+  response.send('Hello World! Let us rejoice! Twice!');
 });
 
 var port = process.env.PORT || 5000;
