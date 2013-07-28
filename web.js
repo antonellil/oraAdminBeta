@@ -19,6 +19,10 @@ app.get('/', function(request, response) {
 	response.send('Hello World! Let us rejoice! Twice!');
 });
 
+app.get('/api', function(request, response) {
+   response.send({name:"Raymond",age:40});
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
 	console.log("Listening on " + port);
