@@ -22,6 +22,9 @@
         </p>
       </form>
 
+      <a href="/admin" title="Admin Page">Admin Page</a>
+
+<!--
       <input type="submit" id="testAjax" />
 
       <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -37,8 +40,12 @@
               dataType: "json"
             });
 
-            request.done(function(venues) {
-              console.log(venues);
+            request.done(function(json) {
+              if(json.error) {
+                console.log(json.errorMessage);
+              } else {
+                console.log(json.data);
+              }
             });
 
             request.fail(function(jqXHR, textStatus) {
@@ -47,7 +54,7 @@
           })
         });
       </script>
-
+  -->
     
     </body>
 </html>

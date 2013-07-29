@@ -1,21 +1,24 @@
 //Modules
+//----------------------------------------------------------------------------------
 var express = require("express");
 var pg = require('pg');
 var hbs = require('hbs');
 
 //Local files
+//----------------------------------------------------------------------------------
 var hash = require('./pass').hash
-var blogEngine = require('./blog');
 var venue = require('./venue');
 var special = require('./special');
 
 //Global variables
+//----------------------------------------------------------------------------------
 var app = express();
 var users = {
   louis: { username: 'louis' }
 };
 
-
+//App initiation
+//----------------------------------------------------------------------------------
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 
@@ -23,9 +26,10 @@ app.use(express.logger());
 app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, very secret'));
 app.use(express.session());
+app.use(express.static(__dirname + '/public'));
 
-// Session-persisted message middleware
-
+//Session persistent message middleware
+//----------------------------------------------------------------------------------
 app.use(function(req, res, next){
 	var err = req.session.error
 	, msg = req.session.success;
@@ -37,15 +41,16 @@ app.use(function(req, res, next){
 	next();
 });
 
-//When you create a user, generate a salt and hash the password
-
+//Hash password - TODO pull user from database
+//----------------------------------------------------------------------------------
 hash('foobar', function(err, salt, hash){
   if (err) throw err;
   users.louis.salt = salt;
   users.louis.hash = hash;
 });
 
-//Auth function
+//Authentication functions
+//----------------------------------------------------------------------------------
 function authenticate(name, pass, fn) {
 	console.log('authenticating %s:%s', name, pass);
 	var user = users[name];
@@ -61,7 +66,6 @@ function authenticate(name, pass, fn) {
 	})
 }
 
-//Restricting function
 function restrict(req, res, next) {
 	if (req.session.user) {
 		next();
@@ -71,18 +75,17 @@ function restrict(req, res, next) {
 	}
 }
 
-//Application routing
+//Admin application routing
+//----------------------------------------------------------------------------------
 app.get('/', function(req, res) {
 	res.render('index');
 });
 
 app.get('/admin', restrict, function(req, res) {
-   res.render('admin',{title:"My Blog", entries:blogEngine.getBlogEntries()});
+   res.render('admin');
 });
 
 app.get('/logout', function(req, res){
-	// destroy the user's session to log them out
-	// will be re-created next request
 	req.session.destroy(function(){
 		res.redirect('/');
 	});
@@ -91,15 +94,12 @@ app.get('/logout', function(req, res){
 app.post('/login', function(req, res){
   authenticate(req.body.username, req.body.password, function(err, user){
     if (user) {
-      // Regenerate session when signing in
-      // to prevent fixation 
+      // Regenerate session when signing in to prevent fixation 
       req.session.regenerate(function(){
-        // Store the user's primary key 
-        // in the session store to be retrieved,
-        // or in this case the entire user object
+        // Store the user in the session store to be retrieved
         req.session.user = user;
         req.session.success = 'Authenticated as ' + user.username;
-        res.redirect('back');
+        res.redirect('/admin');
       });
     } else {
       req.session.error = 'Authentication failed';
@@ -108,7 +108,8 @@ app.post('/login', function(req, res){
   });
 });
 
-//API routing
+//API Routing
+//----------------------------------------------------------------------------------
 app.get('/venues', venue.getAll);
 //app.get('/specials', special.getAll);
 app.get('/venueAdd', restrict, venue.addVenue);
@@ -116,5 +117,8 @@ app.get('/venueAdd', restrict, venue.addVenue);
 //app.delete('/special/:id', restrict, special.deleteSpecial);
 app.get('/venueDelete', restrict, venue.deleteVenue);
 
+
+//App listen
+//----------------------------------------------------------------------------------
 var port = process.env.PORT || 5000;
 app.listen(port);

@@ -10,9 +10,9 @@ client.connect();
 exports.getAll = function(req, res) {
     var  query = client.query("select * from venues",function(err,result){
         if(err) {
-            res.send("Error retrieving venues");
+            res.send({error: true, errorMessage: String(err)});
         } else{
-            res.send(JSON.stringify(result.rows));
+            res.send({error:false, data: JSON.stringify(result.rows)});
         }   
     });
 };
