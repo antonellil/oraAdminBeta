@@ -1,0 +1,19 @@
+CREATE TABLE venues (
+id SERIAL,
+name varchar(256),
+address varchar(256),
+city varchar(256),
+lat real,
+lng real);
+
+CREATE TABLE specials (
+id SERIAL,
+desc varchar(256),
+day varchar(80),
+end varchar(12),
+start varchar(12),
+lat real,
+lng real,
+price numeric,
+venue varchar(256),
+venueId integer);
