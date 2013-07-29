@@ -11,16 +11,43 @@
       <form method="post" action="/login">
         <p>
           <label>Username:</label>
-          <input type="text" name="username">
+          <input type="text" name="username" />
         </p>
         <p>
           <label>Password:</label>
-          <input type="text" name="password">
+          <input type="password" name="password" />
         </p>
         <p>
-          <input type="submit" value="Login">
+          <input type="submit" value="Login" />
         </p>
       </form>
+
+      <input type="submit" id="testAjax" />
+
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+      <script>
+        $(function() {
+          $('#testAjax').click(function(){
+            console.log("starting request");
+            var request = $.ajax({
+              url: "/venues",
+              type: "GET",
+              data: {},
+              dataType: "json"
+            });
+
+            request.done(function(venues) {
+              console.log(venues);
+            });
+
+            request.fail(function(jqXHR, textStatus) {
+              alert( "Request failed: " + textStatus);
+            });
+          })
+        });
+      </script>
+
     
     </body>
 </html>
