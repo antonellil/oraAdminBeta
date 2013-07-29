@@ -3,6 +3,7 @@ id SERIAL,
 name varchar(256),
 address varchar(256),
 city varchar(256),
+state varchar(256),
 lat real,
 lng real);
 
