@@ -9,10 +9,10 @@ lng real);
 
 CREATE TABLE specials (
 id SERIAL,
-desc varchar(256),
+description varchar(256),
 day varchar(80),
-end varchar(12),
-start varchar(12),
+endTime varchar(12),
+startTime varchar(12),
 lat real,
 lng real,
 price numeric,
