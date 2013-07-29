@@ -1,0 +1,220 @@
+html,
+body,
+#loadingOverlay {
+    height:100%;
+    font-size:10px;
+    width:100%;
+    background: #fff;
+    font-family: Helvetica,Arial;
+}
+
+#loadingOverlay {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 2000;
+    display: none;
+    opacity:0.5;
+    background: #333 url('../img/loading.gif') no-repeat center center;
+}
+
+.space {
+    height:.5em;
+    clear:both;
+    width:100%;
+}
+
+#homePage {
+    background: #ffffff url('../img/wherebearhand.jpg') no-repeat bottom left;
+    background-size:100%;
+}
+
+#searchHeader {
+    z-index: 1000;
+    width:100%;
+    height:30px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(1, rgb(17,182,168)),
+        color-stop(0, rgb(16,169,156))
+    );
+    position:relative;
+    border-top: 1px solid #12C3B5;
+    border-bottom: 1px solid #0E8F85;
+    overflow: hidden;
+}
+
+#searchHeader h1 {
+    font-size: 14px;
+    text-transform: capitalize;
+    display: block;
+    width:60%;
+    height:30px;
+    line-height: 30px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    padding:0 20% 0 20%;
+    white-space: nowrap;
+    color:#fff;
+    text-shadow:1px 1px #000;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+
+#searchIcon {
+    position: absolute;
+    z-index: 1001;
+    width: 14px;
+    height:14px;
+    top:8px;
+    left:8px;
+    background-image: url('../img/search.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+#resultsHeader {
+    width:100%;
+    background: #fff;
+    position: relative;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+#selectedResult {
+    clear:both;
+    padding:8px 2% 8px 2%;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
+    width:96%;
+    box-shadow: 0 0 1px 0 #ddd;
+}
+
+    #selectedResult span {
+        display: block;
+        float: left;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        height:12px;
+        font-size: 10px;
+        line-height: 12px;
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        padding:0 0 0 14px;
+        margin: 0 8px 4px 0;
+        overflow: hidden;
+    }
+
+    #selectedResult .price {
+        clear:both;
+        margin-bottom: 0;
+        background-image: url('../img/price.png');
+    }
+
+    #selectedResult .venue {
+        max-width:30%;
+        margin-right:0;
+        background-image: url('../img/venue.png');
+    }
+
+    #selectedResult .dist {
+        padding-left:10px;
+        background-image: url('../img/dist.png');
+    }
+
+    #selectedResult .desc {
+        margin:0;
+        max-width: 70%;
+        background-image: url('../img/desc.png');
+    }
+
+    #selectedResult .time {
+        background-image: url('../img/time.png');
+    }
+
+#searchPage {
+    background: #fff;
+    overflow: hidden;
+}
+
+#searchPage .content {
+    padding:0;
+}
+
+#timeLine {
+    width:100%;
+    clear:both;
+    height:10px;
+    z-index:1000;
+    padding:2px 0 2px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+#timeLine span {
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    width:8.3333%;
+    text-align: center;
+    font-size:10px;
+    line-height: 10px;
+}
+
+#nowLine {
+    width:1px;
+    height:100%;
+    position: absolute;
+    z-index: 500;
+    background: #ddd;
+}
+
+#results {
+    width:100%;
+    position:absolute;
+    overflow: hidden;
+    z-index:600;
+    margin-top: 8px;
+}
+
+    .result{
+        background: #10a99d;
+        height:5px;
+        z-index:600;
+        position:relative;
+        border-bottom: 1px solid #067675;
+        clear:both;
+        margin-bottom: 2px;
+    }
+
+    .resultHidden{
+        background: transparent;
+        border:none;
+    }
+
+    .highlight{
+        border-bottom: 1px solid #4C7699;
+        background: #2882CC;
+    }
+
+#resultsSlider {
+    display: none;
+}
+
+#resultsSliderWrap {
+    position: absolute;
+    z-index:700;
+    width:100%;
+}
+
+#resultsSliderWrap .ui-focus {
+    box-shadow: none;
+}
+
