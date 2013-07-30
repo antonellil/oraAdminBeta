@@ -24,6 +24,12 @@ body,
     width:100%;
 }
 
+p.status {
+    color:#cc0000;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
 #homePage {
     background: #ffffff url('../img/wherebearhand.jpg') no-repeat bottom left;
     background-size:100%;

@@ -5,7 +5,9 @@
     "pg": "0.6.15",
     "express": "3.1.x",
     "hbs":"*",
-    "crypto":"*"
+    "crypto":"*",
+    "googlemaps":"*",
+    "yelp":"*"
   },
   "engines": {
     "node": "0.10.x",

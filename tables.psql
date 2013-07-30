@@ -4,17 +4,19 @@ name varchar(256),
 address varchar(256),
 city varchar(256),
 state varchar(256),
-lat real,
-lng real);
+lat numeric,
+lng numeric);
 
 CREATE TABLE specials (
 id SERIAL,
 description varchar(256),
 day varchar(80),
-endTime varchar(12),
-startTime varchar(12),
-lat real,
-lng real,
+endTime varchar(30),
+startTime varchar(30),
+lat numeric,
+lng numeric,
+city varchar(256),
+address varchar(256),
 price numeric,
 venue varchar(256),
 venueId integer);

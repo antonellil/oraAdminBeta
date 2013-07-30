@@ -111,8 +111,9 @@ app.post('/login', function(req, res){
 //API Routing
 //----------------------------------------------------------------------------------
 app.get('/venues', venue.getAll);
+app.get('/venue/:id', venue.getVenue);
 //app.get('/specials', special.getAll);
-app.get('/venueAdd', restrict, venue.addVenue);
+app.post('/venueAdd', restrict, venue.addVenue);
 //app.post('/special', restrict, special.addSpecial);
 //app.delete('/special/:id', restrict, special.deleteSpecial);
 app.get('/venueDelete', restrict, venue.deleteVenue);
