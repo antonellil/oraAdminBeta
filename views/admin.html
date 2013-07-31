@@ -195,6 +195,9 @@
                 //fillVenues('#venueDeleteSelect');
             }).on('pageshow','#specialPage',function(){
                 fillVenues('#specialVenue');
+            }).on('pageshow','#deleteVenuePage',function(){
+                $('#venueDeleteSelect').html("<option value=''>Select a Special</option>").selectmenu('refresh');
+                fillVenues('#venueDeleteSelect');
             }).on('pageshow','#deleteSpecialPage',function(){
                 $('#specialDelete').html("<option value=''>Select a Special</option>").selectmenu('refresh');
                 fillVenues('#specialVenueDelete');
