@@ -24,12 +24,18 @@ body,
     width:100%;
 }
 
+
+/* Admin Styling -------------------------------------------------------------------------*/
 p.status {
     color:#cc0000;
     padding-bottom: 10px;
+    margin: 0;
     font-size: 14px;
 }
 
+#specialPage .ui-slider-switch { width: 100px }
+
+/* App Styling -------------------------------------------------------------------------*/
 #homePage {
     background: #ffffff url('../img/wherebearhand.jpg') no-repeat bottom left;
     background-size:100%;

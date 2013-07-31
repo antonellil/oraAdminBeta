@@ -16,8 +16,8 @@
             <div data-role="content">
                 <p class="status">{{status}}</p>
                 <div data-role="controlgroup" id="venueButtons">
-                    <a data-role="button" href="#specialPage" data-icon="plus" data-iconpos="left" id="addSpecial">Add Special</a>
-                    <a data-role="button" href="#venuePage" data-icon="home" data-iconpos="left" id="addVenue">Add Venue</a>
+                    <a data-role="button" href="#specialPage" data-icon="plus" data-iconpos="left" id="addSpecialButton">Add Special</a>
+                    <a data-role="button" href="#venuePage" data-icon="home" data-iconpos="left" id="addVenueButton">Add Venue</a>
                     <a data-role="button" href="#deleteSpecialPage" data-icon="minus" data-iconpos="left" id="deleteSpecialButton">Remove Special</a>
                     <a data-role="button" href="#deleteVenuePage" data-icon="minus" data-iconpos="left" id="deleteVenueButton">Remove Venue</a>
                     <a data-role="button" data-icon="back" data-ajax="false" data-iconpos="left" href="/logout" id="logoutButton">Logout</a>
@@ -57,34 +57,54 @@
         -->
         <div data-role="page" id="specialPage">
             <div data-role="content">
-                <div data-role="fieldcontain" class="ui-hide-label" id="specialWrap">
-                    <label for="venueList">Venues</label>
-                    <select name="venueList" id="venueList">
+                <form action="/specialAdd" method="post">
+                    <label for="specialVenue">Venues</label>
+                    <select name="specialVenue" id="specialVenue">
                         <option value="">Select a Venue</option>
                     </select>
                     <div class="space"></div>
-                    <label for="day">Name</label>
-                    <select name="day" id="day">
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
-                        <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                    </select>
+                    <input type="text" placeholder="1/2 Pound BBQ Wings" name="specialDescription" id="specialDescription" value="" />
                     <div class="space"></div>
-                    <input type="time" name="start" id="start" placeholder="start" data-mini="true"/>
+                    <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+                       <input type="checkbox" name="specialDay[]" id="specialSunday" value="1"/>
+                       <label for="specialSunday">Sunday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialMonday" value="2"/>
+                       <label for="specialMonday">Monday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialTuesday" value="3"/>
+                       <label for="specialTuesday">Tuesday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialWednesday" value="4"/>
+                       <label for="specialWednesday">Wednesday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialThursday" value="5"/>
+                       <label for="specialThursday">Thursday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialFriday" value="6"/>
+                       <label for="specialFriday">Friday</label>
+                       <input type="checkbox" name="specialDay[]" id="specialSaturday" value="7"/>
+                       <label for="specialSaturday">Saturday</label>
+                    </fieldset>
                     <div class="space"></div>
-                    <input type="time" name="end" id="end" placeholder="end" data-mini="true"/>
+                    <input type="time" name="specialStart" id="specialStart" placeholder="start" data-mini="true"/>
                     <div class="space"></div>
-                    <label for="price">Price</label>
-                    <input type="number" placeholder="3.99" name="price" id="price" value="" />
+                    <input type="time" name="specialEnd" id="specialEnd" placeholder="end" data-mini="true"/>
                     <div class="space"></div>
-                    <label for="description">Description</label>
-                    <input type="text" placeholder="1/2 Pound BBQ Wings" name="description" id="description" value="" />
-                </div>
-                <a data-role="button" data-icon="check" data-iconpos="left" id="submitSpecial">Submit</a>
+                    <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+                       <input type="radio" name="specialAmount[]" id="specialPrice" value="price" checked="checked"/>
+                       <label for="specialPrice">Price</label>
+                       <input type="radio" name="specialAmount[]" id="specialDiscount" value="discount"/>
+                       <label for="specialDiscount">Discount</label>
+                    </fieldset>
+                    <div class="space"></div>
+                    <input type="number" placeholder="3.99 price or .2 discount" step="0.01" min="0" name="specialValue" id="specialValue" value="" />
+                    <div class="space"></div>
+                    <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+                       <input type="radio" name="specialType[]" id="specialDrink" value="drink" checked="checked"/>
+                       <label for="specialDrink">Drink</label>
+                       <input type="radio" name="specialType[]" id="specialFood" value="food"/>
+                       <label for="specialFood">Food</label>
+                    </fieldset>
+                    <div class="space"></div>
+                    <input type="submit" value="Submit" id="submitSpecial" />
+                </form>
+                
                 <a data-role="button" href="#admin" data-icon="delete">Cancel</a>
             </div>
         </div>
@@ -94,10 +114,13 @@
         -->
         <div data-role="page" id="deleteSpecialPage">
             <div data-role="content">
-                <select name="specialDelete" id="specialDelete">
+                <a data-role="button" href="#admin" data-icon="back">Cancel</a>
+                <select name="specialVenueDelete" id="specialVenueDelete">
                 </select>
-                <a data-role="button" href="#admin" data-icon="delete">Cancel</a>
-                <a data-role="button" href="#admin" data-icon="delete" id="deleteSpecialButton">Delete</a>
+                <form action="/specialDelete" method="post">
+                    <select name="specialDelete" id="specialDelete"><option value=""></option></select>
+                    <input type="submit" data-ajax="false" id="deleteSpecialSubmit" value="Delete" />
+                </form>
             </div>
         </div>
 
@@ -109,7 +132,7 @@
                 <form action="/venueDelete" method="post">
                     <a data-role="button" href="#admin" data-icon="back">Cancel</a>
                     <select name="venueDelete" id="venueDeleteSelect"><option value=""></option></select>
-                    <input type="submit" id="deleteVenueSubmit" value="Delete" />
+                    <input type="submit" data-ajax="false" id="deleteVenueSubmit" value="Delete" />
                 </form>
             </div>
         </div>
@@ -120,31 +143,68 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
         <script>
-            $(function() {
-                $('#deleteVenueButton').click(function(){
-                    $('#venueDeleteSelect').html("<option value=''></option>");
-                    var request = $.ajax({
-                        url: "/venues",
-                        type: "GET",
-                        data: {},
-                        dataType: "json"
-                    });
+            function fillVenues(div) {
+                $(div).html("<option value=''>Select a Venue</option>").selectmenu('refresh');
+                var request = $.ajax({
+                    url: "/venues",
+                    type: "GET",
+                    data: {},
+                    dataType: "json"
+                });
 
-                    request.done(function(json) {
-                        if(json.error) {
-                            console.log(json.errorMessage);
-                        } else {
-                            $.each(json.data,function(i,item){
-                                $('#venueDeleteSelect').append('<option value="'+item.id+'">'+unescape(item.name)+'</option');
-                            });
-                        }
-                    });
+                request.done(function(json) {
+                    if(json.error) {
+                        console.log(json.errorMessage);
+                    } else {
+                        $.each(json.data,function(i,item){
+                            $(div).append('<option value="'+item.venue_id+'">'+unescape(item.name)+'</option');
+                        });
+                    }
+                });
 
-                    request.fail(function(jqXHR, textStatus) {
-                        alert( "Request failed: " + textStatus);
-                    });
+                request.fail(function(jqXHR, textStatus) {
+                    alert( "Request failed: " + textStatus);
+                });
+            }
+
+            function fillSpecials(div,venue_id) {
+                $('#specialDelete').html("<option value=''>Select a Special</option>").selectmenu('refresh');
+                var request = $.ajax({
+                    url: "/specials/venue",
+                    type: "GET",
+                    data: {venue_id: venue_id},
+                    dataType: "json"
+                });
+
+                request.done(function(json) {
+                    if(json.error) {
+                        console.log(json.errorMessage);
+                    } else {
+                        $.each(json.data,function(i,item){
+                            $(div).append('<option value="'+item.special_id+'">'+unescape(item.description)+'</option');
+                        });
+                    }
+                });
+
+                request.fail(function(jqXHR, textStatus) {
+                    alert( "Request failed: " + textStatus);
+                });
+            }
+
+            $(document).on("pageshow", "#deleteVenuePage", function(){
+                //fillVenues('#venueDeleteSelect');
+            }).on('pageshow','#specialPage',function(){
+                fillVenues('#specialVenue');
+            }).on('pageshow','#deleteSpecialPage',function(){
+                $('#specialDelete').html("<option value=''>Select a Special</option>").selectmenu('refresh');
+                fillVenues('#specialVenueDelete');
+            }).ready(function(){
+                $('#specialVenueDelete').bind( "change", function(event, ui) {
+                    fillSpecials('#specialDelete',$('#specialVenueDelete').val());
                 });
             });
+
+
         </script>
     </body>
 </html>

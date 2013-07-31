@@ -108,16 +108,20 @@ app.post('/login', function(req, res){
   });
 });
 
-//API Routing
+//Public API Routing
 //----------------------------------------------------------------------------------
 app.get('/venues', venue.getAll);
 app.get('/venue/:id', venue.getVenue);
-//app.get('/specials', special.getAll);
-app.post('/venueAdd', restrict, venue.addVenue);
-//app.post('/special', restrict, special.addSpecial);
-//app.delete('/special/:id', restrict, special.deleteSpecial);
-app.get('/venueDelete', restrict, venue.deleteVenue);
+app.get('/specials', special.getAll);
+app.get('/special/:id', special.getSpecial);
+app.get('/specials/venue', special.getSpecialsVenue);
 
+//Restricted API Routing
+//----------------------------------------------------------------------------------
+app.post('/venueAdd', restrict, venue.addVenue);
+app.post('/specialAdd', restrict, special.addSpecial);
+app.post('/specialDelete', restrict, special.deleteSpecial);
+app.post('/venueDelete', restrict, venue.deleteVenue);
 
 //App listen
 //----------------------------------------------------------------------------------

@@ -7,7 +7,8 @@
     "hbs":"*",
     "crypto":"*",
     "googlemaps":"*",
-    "yelp":"*"
+    "yelp":"*",
+    "async":"*"
   },
   "engines": {
     "node": "0.10.x",
