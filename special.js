@@ -3,12 +3,14 @@ var pg = require('pg');
 var util = require('util');
 var async = require('async');
 var api_key = '8j2myhYSAHdm723y8jmHAfmh823rmyd';
+var coords = {lat:null,lng:null};
 
 /* Connecting to PostgreSQL Database */
 var conString = process.env.DATABASE_URL || "postgres://soccerswim8:aaaaaaa1@localhost/mydb";
 var client = new pg.Client(conString);
 client.connect();
  
+/* Helper functions - TODO move helper functions to separate helper file */
 function validTimes(start,end) {
     endParts = end.split(':');
     startParts = start.split(':');
@@ -24,43 +26,77 @@ function parseTime(time) {
     return parseFloat(String((parseInt(timeParts[0])+19) % 24)+String(convertedMinutes).replace("0",""));
 }
 
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+}
+ 
+function getDistance(lat1,lng1,lat2,lng2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLng = deg2rad(lng2-lng1); 
+    var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLng/2) * Math.sin(dLng/2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; 
+    return parseFloat(d)*0.621371; //Returns in miles with conversion
+}
+
+function distanceSort(a,b) {
+    if (a.distance > b.distance)
+      return 1;
+    if (a.distance < b.distance)
+      return -1;
+    return 0;
+}
+
+function addDistance(item) {
+    item.distance = getDistance(coords.lat,coords.lng,item.lat,item.lng);
+    return item;
+}
+
+/* Public functions for API calls */
 exports.getAll = function(req, res) {
-    /*var api_key_req = req.query.api_key;
-    if(api_key != api_key_req) {
-        res.send({error: true, errorMessage: 'Get outta here buddy'});
-    } else{*/
-        var query_params = req.query;
-        var whereClause = '';
+    var query_params = req.query;
+    var whereClause = '';
 
-        for(var param in query_params){
-            if(whereClause == '') {
-                whereClause = ' WHERE '
-            } else {
-                whereClause += ' and '
-            }
-
-            if(param=='day'){
-                console.log(query_params[param].toLowerCase());
-                whereClause += query_params[param].toLowerCase()+' = true';
-            } else if(param=='lat') {
-                var upper = String(parseFloat(query_params[param])+1);
-                var lower = String(parseFloat(query_params[param])-1);
-                whereClause += 'lat < '+upper+' and lat > '+lower;
-            } else if(param=='lng') {
-                var upper = String(parseFloat(query_params[param])+1);
-                var lower = String(parseFloat(query_params[param])-1);
-                whereClause += 'lng < '+upper+' and lng > '+lower;
-            }    
+    for(var param in query_params){
+        if(whereClause == '') {
+            whereClause = ' WHERE '
+        } else {
+            whereClause += ' and '
         }
 
+        if(param=='day'){
+            console.log(query_params[param].toLowerCase());
+            whereClause += query_params[param].toLowerCase()+' = true';
+        } else if(param=='lat') {
+            var upper = String(parseFloat(query_params[param])+1);
+            var lower = String(parseFloat(query_params[param])-1);
+            whereClause += 'lat < '+upper+' and lat > '+lower;
+        } else if(param=='lng') {
+            var upper = String(parseFloat(query_params[param])+1);
+            var lower = String(parseFloat(query_params[param])-1);
+            whereClause += 'lng < '+upper+' and lng > '+lower;
+        }  
+    }
+
+    if((typeof query_params.lat === 'undefined') || (typeof query_params.lng === 'undefined')) {
+        res.send({error: true, errorMessage: 'Lack of essential inputs'});
+    } else{
         var  query = client.query("select * from specials"+whereClause,[],function(err,result){
             if(err) {
                 res.send({error: true, errorMessage: String(err)});
             } else{
+                coords.lat = query_params.lat;
+                coords.lng = query_params.lng;
+                result.rows.map(addDistance)
+                result.rows.sort(distanceSort);
                 res.send({error:false, data: result.rows});
             }   
         });
-    /*}*/
+    }
 };
 
 exports.getSpecial = function(req,res) {
