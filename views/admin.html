@@ -101,6 +101,8 @@
                        <label for="specialFood">Food</label>
                        <input type="radio" name="specialType[]" class="specialType" id="specialEvent" value="event"/>
                        <label for="specialEvent">Event</label>
+                       <input type="radio" name="specialType[]" class="specialType" id="specialOneDay" value="oneday"/>
+                       <label for="specialOneDay">One Day</label>
                     </fieldset>
                     <div class="space"></div>
                     <div style="display:none;" id="specialDateWrap">
@@ -211,7 +213,7 @@
                     fillSpecials('#specialDelete',$('#specialVenueDelete').val());
                 });
                 $('.specialType').bind( "click", function(event, ui) {
-                    if($(this).val()=='event') {
+                    if($(this).val()=='oneday') {
                         $('#specialDateWrap').show();
                     } else {
                         $('#specialDateWrap').hide();
