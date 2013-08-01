@@ -95,12 +95,18 @@
                     <input type="number" placeholder="3.99 price or .2 discount" step="0.01" min="0" name="specialValue" id="specialValue" value="" />
                     <div class="space"></div>
                     <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
-                       <input type="radio" name="specialType[]" id="specialDrink" value="drink" checked="checked"/>
+                       <input type="radio" name="specialType[]" class="specialType" id="specialDrink" value="drink" checked="checked"/>
                        <label for="specialDrink">Drink</label>
-                       <input type="radio" name="specialType[]" id="specialFood" value="food"/>
+                       <input type="radio" name="specialType[]" class="specialType" id="specialFood" value="food"/>
                        <label for="specialFood">Food</label>
+                       <input type="radio" name="specialType[]" class="specialType" id="specialEvent" value="event"/>
+                       <label for="specialEvent">Event</label>
                     </fieldset>
                     <div class="space"></div>
+                    <div style="display:none;" id="specialDateWrap">
+                        <input type="date" name="specialDate" id="specialDate" />
+                        <div class="space"></div>
+                    </div>
                     <input type="submit" value="Submit" id="submitSpecial" />
                 </form>
                 
@@ -203,6 +209,13 @@
             }).ready(function(){
                 $('#specialVenueDelete').bind( "change", function(event, ui) {
                     fillSpecials('#specialDelete',$('#specialVenueDelete').val());
+                });
+                $('.specialType').bind( "click", function(event, ui) {
+                    if($(this).val()=='event') {
+                        $('#specialDateWrap').show();
+                    } else {
+                        $('#specialDateWrap').hide();
+                    }
                 });
             });
 

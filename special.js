@@ -18,6 +18,12 @@ function validTimes(start,end) {
     return (start!='')&&(end!='')&&(endHr>=startHr)&&edge;
 }
 
+function parseTime(time) {
+    var timeParts = time.split(":");
+    var convertedMinutes = parseFloat(timeParts[1])/60.0;
+    return parseFloat(String((parseInt(timeParts[0])+19) % 24)+String(convertedMinutes).replace("0",""));
+}
+
 exports.getAll = function(req, res) {
     /*var api_key_req = req.query.api_key;
     if(api_key != api_key_req) {
@@ -135,10 +141,12 @@ exports.addSpecial = function(req, res) {
                 console.log("Inserting special");
                 console.log(special);
                 
-                client.query("INSERT INTO specials (description,endtime,starttime,lat,lng,city, address,valuetype,value,venue,venue_id,type,sunday,monday,tuesday,wednesday,thursday,friday,saturday) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)",
+                client.query("INSERT INTO specials (description,endtime,starttime,endValue,startValue,lat,lng,city, address,valuetype,value,venue,venue_id,type,date,sunday,monday,tuesday,wednesday,thursday,friday,saturday) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)",
                     [escape(special.specialDescription),
                     escape(special.specialEnd),
                     escape(special.specialStart),
+                    parseTime(special.specialEnd),
+                    parseTime(special.specialStart),
                     venue.lat,
                     venue.lng,
                     venue.city,
@@ -148,6 +156,7 @@ exports.addSpecial = function(req, res) {
                     venue.name,
                     venue.venue_id,
                     escape(special.specialType),
+                    escape(special.specialDate),
                     special.specialSunday,
                     special.specialMonday,
                     special.specialTuesday,
