@@ -61,7 +61,6 @@ exports.getAll = function(req, res) {
     var query_params = req.query;
 
     console.log(query_params);
-    console.log(query_params['today']);
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
