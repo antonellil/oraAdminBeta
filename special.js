@@ -65,7 +65,7 @@ exports.getAll = function(req, res) {
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
-    var whereClause = ' WHERE '+day.toLowerCase()+' = true and type in ('+query_params['type'].join(',')+')';
+    var whereClause = ' WHERE '+day.toLowerCase()+' = true and type in ("'+query_params['type'].join('","')+'")';
 
     console.log(whereClause);
 
