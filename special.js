@@ -67,6 +67,8 @@ exports.getAll = function(req, res) {
 
     var whereClause = ' WHERE '+day.toLowerCase()+' = true and type in ('+query_params['type'].join(',')+')';
 
+    console.log(whereClause);
+
     for(var param in query_params){
         if(param=='lat') {
             var upper = String(parseFloat(query_params[param])+radius);
