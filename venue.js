@@ -17,9 +17,9 @@ client.connect();
 exports.getAll = function(req, res) {
     var  query = client.query("select * from venues",function(err,result){
         if(err) {
-            res.json({error: true, errorMessage: String(err)});
+            res.send(JSON.stringify({error: true, errorMessage: String(err)}));
         } else{
-            res.json({error:false, data: result.rows});
+            res.send(JSON.stringify({error:false, data: result.rows}));
         }   
     });
 };
