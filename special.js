@@ -79,13 +79,13 @@ exports.getAll = function(req, res) {
     } else{
         var  query = client.query("select * from specials"+whereClause,[],function(err,result){
             if(err) {
-                res.json({error: true, errorMessage: String(err)});
+                res.jsonp({error: true, errorMessage: String(err)});
             } else{
                 coords.lat = query_params.lat;
                 coords.lng = query_params.lng;
                 result.rows.map(addDistance)
                 result.rows.sort(distanceSort);
-                res.json({error:false, data: result.rows});
+                res.jsonp({error:false, data: result.rows});
             }   
         });
     }
@@ -95,9 +95,9 @@ exports.getSpecial = function(req,res) {
     var id = req.params.id;
     client.query("select * from specials where special_id = $1",[id],function(err,result){
         if(err) {
-            return res.send({error: true, errorMessage: String(err)});
+            return res.jsonp({error: true, errorMessage: String(err)});
         } else{
-            return res.send({error:false, data: result.rows});
+            return res.jsonp({error:false, data: result.rows});
         }   
     }); 
 }
@@ -106,9 +106,9 @@ exports.getSpecialsVenue = function(req,res) {
     var id = req.query.venue_id;
     client.query("select * from specials where venue_id = $1",[id],function(err,result){
         if(err) {
-            return res.send({error: true, errorMessage: String(err)});
+            return res.jsonp({error: true, errorMessage: String(err)});
         } else{
-            return res.send({error:false, data: result.rows});
+            return res.jsonp({error:false, data: result.rows});
         }   
     }); 
 }
