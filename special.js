@@ -79,13 +79,13 @@ exports.getAll = function(req, res) {
     } else{
         var  query = client.query("select * from specials"+whereClause,[],function(err,result){
             if(err) {
-                res.send({error: true, errorMessage: String(err)});
+                res.json({error: true, errorMessage: String(err)});
             } else{
                 coords.lat = query_params.lat;
                 coords.lng = query_params.lng;
                 result.rows.map(addDistance)
                 result.rows.sort(distanceSort);
-                res.send({error:false, data: result.rows});
+                res.json({error:false, data: result.rows});
             }   
         });
     }
