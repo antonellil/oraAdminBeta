@@ -15,11 +15,12 @@ var client = new pg.Client(conString);
 client.connect();
  
 exports.getAll = function(req, res) {
+    req.query
     var  query = client.query("select * from venues",function(err,result){
         if(err) {
             res.json({error: true, errorMessage: String(err)});
         } else{
-            res.json({data: result.rows});
+            res.jsonp({error:false, data: result.rows});
         }   
     });
 };
