@@ -59,13 +59,15 @@ function addDistance(item) {
 /* Public functions for API calls */
 exports.getAll = function(req, res) {
     var query_params = req.query;
+    var radius = 2;
 
     console.log(query_params);
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
     var whereClause = ' WHERE '+day.toLowerCase()+' = true';
-    var radius = 10;
+    var type = ' and type in ('+query_params['type'].join(',')+')';
+    
 
     for(var param in query_params){
         if(param=='lat') {
