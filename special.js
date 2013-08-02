@@ -62,8 +62,10 @@ exports.getAll = function(req, res) {
 
     console.log(query_params);
     console.log(query_params['today']);
-    
-    var whereClause = ' WHERE '+query_params['day'].toLowerCase()+' = true';
+
+    var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
+
+    var whereClause = ' WHERE '+day.toLowerCase()+' = true';
     var radius = 1;
 
     for(var param in query_params){
