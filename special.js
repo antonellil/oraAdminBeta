@@ -62,6 +62,7 @@ exports.getAll = function(req, res) {
     var radius = 2;
 
     console.log(query_params);
+    console.log(query_params['type']);
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
