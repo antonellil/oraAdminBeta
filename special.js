@@ -67,8 +67,6 @@ exports.getAll = function(req, res) {
 
     var whereClause = ' WHERE '+day.toLowerCase()+' = true and type in ("'+query_params['type'].join('","')+'")';
 
-    console.log(whereClause);
-
     for(var param in query_params){
         if(param=='lat') {
             var upper = String(parseFloat(query_params[param])+radius);
@@ -84,6 +82,7 @@ exports.getAll = function(req, res) {
     if((typeof query_params.lat === 'undefined') || (typeof query_params.lng === 'undefined')) {
         res.send({error: true, errorMessage: 'Lack of essential inputs'});
     } else{
+        console.log(whereClause);
         var  query = client.query("select * from specials"+whereClause,[],function(err,result){
             if(err) {
                 res.jsonp({error: true, errorMessage: String(err)});
