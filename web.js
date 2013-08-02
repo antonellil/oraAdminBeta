@@ -20,8 +20,8 @@ var users = {
 //App initiation
 //----------------------------------------------------------------------------------
 app.set('view engine', 'html');
+app.set('jsonp callback', true);
 app.engine('html', hbs.__express);
-app.enable("jsonp callback");
 app.use(express.logger());
 app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, very secret'));
