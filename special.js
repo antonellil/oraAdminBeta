@@ -59,26 +59,18 @@ function addDistance(item) {
 /* Public functions for API calls */
 exports.getAll = function(req, res) {
     var query_params = req.query;
-    var whereClause = '';
+    var whereClause = ' WHERE '+query_params['day'].toLowerCase()+' = true';
+    var radius = 1;
 
     for(var param in query_params){
-        if(whereClause == '') {
-            whereClause = ' WHERE '
-        } else {
-            whereClause += ' and '
-        }
-
-        if(param=='day'){
-            console.log(query_params[param].toLowerCase());
-            whereClause += query_params[param].toLowerCase()+' = true';
-        } else if(param=='lat') {
-            var upper = String(parseFloat(query_params[param])+1);
-            var lower = String(parseFloat(query_params[param])-1);
-            whereClause += 'lat < '+upper+' and lat > '+lower;
+        if(param=='lat') {
+            var upper = String(parseFloat(query_params[param])+radius);
+            var lower = String(parseFloat(query_params[param])-radius);
+            whereClause += ' and lat < '+upper+' and lat > '+lower;
         } else if(param=='lng') {
-            var upper = String(parseFloat(query_params[param])+1);
-            var lower = String(parseFloat(query_params[param])-1);
-            whereClause += 'lng < '+upper+' and lng > '+lower;
+            var upper = String(parseFloat(query_params[param])+radius);
+            var lower = String(parseFloat(query_params[param])-radius);
+            whereClause += ' and lng < '+upper+' and lng > '+lower;
         }  
     }
 
