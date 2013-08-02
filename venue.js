@@ -19,7 +19,7 @@ exports.getAll = function(req, res) {
         if(err) {
             res.json({error: true, errorMessage: String(err)});
         } else{
-            res.json({error:false, data: result.rows});
+            res.json({data: result.rows});
         }   
     });
 };
