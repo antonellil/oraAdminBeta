@@ -65,7 +65,7 @@ exports.getAll = function(req, res) {
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
-    var whereClause = ' WHERE '+day.toLowerCase()+' = true and type in ("'+query_params['type'].join('","')+'")';
+    var whereClause = 'WHERE '+day.toLowerCase()+' = true and type in (\''+query_params['type'].join('\',\'')+'\')';
 
     for(var param in query_params){
         if(param=='lat') {
@@ -83,7 +83,7 @@ exports.getAll = function(req, res) {
         res.send({error: true, errorMessage: 'Lack of essential inputs'});
     } else{
         console.log(whereClause);
-        var  query = client.query("select * from specials"+whereClause,[],function(err,result){
+        var  query = client.query("select * from specials "+whereClause,[],function(err,result){
             if(err) {
                 res.jsonp({error: true, errorMessage: String(err)});
             } else{
