@@ -61,14 +61,16 @@ exports.getAll = function(req, res) {
     var query_params = req.query;
     var radius = 2;
 
-    console.log(query_params);
-    console.log(query_params['type']);
-
     query_params.type = query_params['type'] || ['drink','food'];
 
     var day = (query_params['when'] == 'now') || (query_params['when'] == 'later') ? query_params['today'] : query_params['tomorrow'];
 
-    var whereClause = 'WHERE '+day.toLowerCase()+' = true and type in (\''+query_params['type'].join('\',\'')+'\')';
+    var time = query_params['when'] == 'now' ? ' and startvalue < '+query_params['time']+' and endvalue > '+query_params['time']
+                : (query_params['when'] == 'later' ? ' and startvalue < '+query_params['time'] : '');
+
+    var whereClause = 'WHERE '+day.toLowerCase()+' = true and type in (\''+query_params['type'].join('\',\'')+'\')'+time;
+
+    console.log(whereClause);
 
     for(var param in query_params){
         if(param=='lat') {
