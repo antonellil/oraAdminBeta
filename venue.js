@@ -85,6 +85,7 @@ exports.yelpVenue = function(req, res) {
 
     yelp.search({term: unescape(query.venue), limit:1,ll:String(query.lat)+','+String(query.lng)}, function(error, data) {
         if(error){
+            console.log(error);
             res.jsonp({error: true, errorMessage: String(error)});
         } else{
             res.jsonp({error: false, data: data});
