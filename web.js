@@ -25,7 +25,7 @@ app.engine('html', hbs.__express);
 app.use(express.logger());
 app.use(express.bodyParser());
 app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.cookieSession());
+app.use(express.session());
 app.use(express.static(__dirname + '/public'));
 
 //Session persistent message middleware
