@@ -2,12 +2,12 @@
 var pg = require('pg');
 var util = require('util');
 var gm = require('googlemaps');
-/*var yelp = require('yelp').createClient({
+var yelp = require('yelp').createClient({
     consumer_key: "lYhFgc9TxUXLpwHanSuYBA", 
     consumer_secret: "n9489yxGzqd8fICRWj3mOjweQZg",
     token: "R3OjAykK_dRXiSie25BBPB5wvkXI4IFI",
     token_secret: "G_xIg5IZUw1AFdixVGIoPI3X46I"
-});*/
+});
 
 /* Connecting to PostgreSQL Database */
 var conString = process.env.DATABASE_URL || "postgres://soccerswim8:aaaaaaa1@localhost/mydb";
@@ -78,4 +78,16 @@ exports.deleteVenue = function(req, res) {
             res.render('admin',{status:status});
         }
     });
+}
+
+exports.venueYelp = function(req, res) {
+    var query = req.query;
+
+    yelp.search({term: unescape(query.venue), limit:1,ll:String(query.lat)+','+String(query.lng)}, function(error, data) {
+        if(error){
+            res.jsonp({error: true, errorMessage: String(error)});
+        } else{
+            res.jsonp({error: false, data: data});
+        }
+    });    
 }

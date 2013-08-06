@@ -115,6 +115,7 @@ app.get('/venue/:id', venue.getVenue);
 app.get('/specials', special.getAll);
 app.get('/special/:id', special.getSpecial);
 app.get('/specials/venue', special.getSpecialsVenue);
+app.get('/venueyelp', venue.yelpVenue);
 
 //Restricted API Routing
 //----------------------------------------------------------------------------------
