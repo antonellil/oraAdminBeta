@@ -83,8 +83,9 @@ exports.deleteVenue = function(req, res) {
 exports.yelpVenue = function(req, res) {
     var query = req.query;
 
-    yelp.search({term: unescape(query.venue),limit:1,ll:[query.lat,query.lng]}, function(error, data) {
+    yelp.search({term: unescape(query.venue),limit:1,ll:String(query.lat)+','+String(query.lng)}, function(error, data) {
         if(error){
+            console.log(String(query.lat)+','+String(query.lng));
             console.log(error);
             res.jsonp({error: true, errorMessage: String(error)});
         } else{
