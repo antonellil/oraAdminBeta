@@ -89,7 +89,7 @@ exports.getAll = function(req, res) {
     } else{
         console.log(whereClause);
         var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")",[],function(err,result){
-            console.log("NUMBER OF RESULTS: "+result.rows.length);
+            console.log(result.rows.length);
         });
         var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+") limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
             if(err) {
