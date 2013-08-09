@@ -87,10 +87,6 @@ exports.getAll = function(req, res) {
     if((typeof query_params.lat === 'undefined') || (typeof query_params.lng === 'undefined')) {
         res.send({error: true, errorMessage: 'Lack of essential inputs'});
     } else{
-        console.log(whereClause);
-        var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")",[],function(err,result){
-            console.log(result.rows.length);
-        });
         var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+") limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
             if(err) {
                 res.jsonp({error: true, errorMessage: String(err)});
