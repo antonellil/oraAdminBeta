@@ -88,7 +88,7 @@ exports.getAll = function(req, res) {
         res.send({error: true, errorMessage: 'Lack of essential inputs'});
     } else{
         console.log(whereClause);
-        var  query = client.query("select * from specials "+whereClause=" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")",[],function(err,result){
+        var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")",[],function(err,result){
             if(err) {
                 res.jsonp({error: true, errorMessage: String(err)});
             } else{
