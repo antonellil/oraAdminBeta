@@ -95,9 +95,11 @@ exports.getAll = function(req, res) {
                     } else{
                         coords.lat = gmLat;
                         coords.lng = gmLng;
+                        result.lat = gmLat;
+                        result.lng = gmLng;
                         result.rows.map(addDistance)
                         result.rows.sort(distanceSort);
-                        res.jsonp({error:false, data: result.rows});
+                        res.jsonp({error:false, data: result});
                     }   
                 });
             }
@@ -117,9 +119,11 @@ exports.getAll = function(req, res) {
             } else{
                 coords.lat = query_params.lat;
                 coords.lng = query_params.lng;
+                result.lat = query_params.lat;
+                result.lng = query_params.lng;
                 result.rows.map(addDistance)
                 result.rows.sort(distanceSort);
-                res.jsonp({error:false, data: result.rows});
+                res.jsonp({error:false, data: result});
             }   
         });
     }
