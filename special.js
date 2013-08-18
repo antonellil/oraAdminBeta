@@ -74,6 +74,7 @@ exports.getAll = function(req, res) {
     console.log(whereClause);
 
     if(query_params['location'] != 'current location') {
+        console.log("geocoding address search");
         gm.geocode(query_params['location'], function(errG, data){
             if(errG || (typeof data.results[0] === 'undefined')) {
                 res.jsonp({error: true, errorMessage: "Google geocoding error!"});
@@ -102,6 +103,7 @@ exports.getAll = function(req, res) {
             }
         });
     } else {
+        console.log("current location search");
         var upperLat = String(parseFloat(query_params['lat'])+radius);
         var lowerLat = String(parseFloat(query_params['lat'])-radius);
         whereClause += ' and lat < '+upperLat+' and lat > '+lowerLat;
