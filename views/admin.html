@@ -213,6 +213,9 @@
                 $('#specialDelete').html("<option value=''>Select a Special</option>").selectmenu('refresh');
                 fillVenues('#specialVenueDelete');
             }).ready(function(){
+                $('#specialCity').bind( "change", function(event, ui) {
+                    fillVenues('#specialVenue');
+                });
                 $('#specialVenueDelete').bind( "change", function(event, ui) {
                     fillSpecials('#specialDelete',$('#specialVenueDelete').val());
                 });
