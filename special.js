@@ -93,8 +93,8 @@ exports.getAll = function(req, res) {
                     if(err) {
                         res.jsonp({error: true, errorMessage: String(err)});
                     } else{
-                        coords.lat = query_params.lat;
-                        coords.lng = query_params.lng;
+                        coords.lat = gmLat;
+                        coords.lng = gmLng;
                         result.rows.map(addDistance)
                         result.rows.sort(distanceSort);
                         res.jsonp({error:false, data: result.rows});
