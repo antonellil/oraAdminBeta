@@ -58,6 +58,10 @@
         <div data-role="page" id="specialPage">
             <div data-role="content">
                 <form action="/specialAdd" method="post">
+                    <select name="specialCity" id="specialCity">
+                        <option value="new york city">New York City</option>
+                        <option selected="selected" value="ithaca">Ithaca</option>
+                    </select>
                     <select name="specialVenue" id="specialVenue">
                         <option value="">Select a Venue</option>
                     </select>
@@ -155,7 +159,7 @@
                 var request = $.ajax({
                     url: "/venues",
                     type: "GET",
-                    data: {},
+                    data: {city:escape($('#specialCity').val())},
                     dataType: "json"
                 });
 

@@ -15,7 +15,8 @@ var client = new pg.Client(conString);
 client.connect();
  
 exports.getAll = function(req, res) {
-    var  query = client.query("select * from venues",function(err,result){
+    var query = req.query;
+    var  query = client.query("select * from venues where city = "+unescape(query.city),function(err,result){
         if(err) {
             res.jsonp({error: true, errorMessage: String(err)});
         } else{
