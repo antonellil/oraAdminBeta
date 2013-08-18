@@ -66,7 +66,7 @@ exports.getAll = function(req, res) {
 
     var day = ((query_params['when'] == 'now') || (query_params['when'] == 'later')) ? query_params['today'] : query_params['tomorrow'];
 
-    var time = query_params['when'] == 'now' ? ' and startvalue < '+query_params['time']+' and endvalue > '+query_params['time']
+    var time = query_params['when'] == 'now' ? ' and startvalue <= '+query_params['time']+' and endvalue > '+query_params['time']
                 : ' and endvalue > '+query_params['time'];
 
     var whereClause = 'WHERE '+day.toLowerCase()+' = true and type in (\''+query_params['type'].join('\',\'')+'\')'+time;
