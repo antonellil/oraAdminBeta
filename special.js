@@ -4,6 +4,7 @@ var util = require('util');
 var async = require('async');
 var api_key = '8j2myhYSAHdm723y8jmHAfmh823rmyd';
 var coords = {lat:null,lng:null};
+var gm = require('googlemaps');
 
 /* Connecting to PostgreSQL Database */
 var conString = process.env.DATABASE_URL || "postgres://soccerswim8:aaaaaaa1@localhost/mydb";
@@ -72,21 +73,42 @@ exports.getAll = function(req, res) {
 
     console.log(whereClause);
 
-    for(var param in query_params){
-        if(param=='lat') {
-            var upper = String(parseFloat(query_params[param])+radius);
-            var lower = String(parseFloat(query_params[param])-radius);
-            whereClause += ' and lat < '+upper+' and lat > '+lower;
-        } else if(param=='lng') {
-            var upper = String(parseFloat(query_params[param])+radius);
-            var lower = String(parseFloat(query_params[param])-radius);
-            whereClause += ' and lng < '+upper+' and lng > '+lower;
-        }  
-    }
+    if(query_params['location'] != 'current location') {
+        gm.geocode(query_params['location'], function(errG, data){
+            if(errG || (typeof data.results[0] === 'undefined')) {
+                res.jsonp({error: true, errorMessage: "Google geocoding error!"});
+            } else {
+                var gmLat = data.results[0].geometry.location.lat;
+                var gmLng = data.results[0].geometry.location.lng;
 
-    if((typeof query_params.lat === 'undefined') || (typeof query_params.lng === 'undefined')) {
-        res.send({error: true, errorMessage: 'Lack of essential inputs'});
-    } else{
+                var upperLat = String(parseFloat(gmLat)+radius);
+                var lowerLat = String(parseFloat(gmLat)-radius);
+                whereClause += ' and lat < '+upperLat+' and lat > '+lowerLat;
+                var upperLng = String(parseFloat(gmLng)+radius);
+                var lowerLng = String(parseFloat(gmLng)-radius);
+                whereClause += ' and lng < '+upperLng+' and lng > '+lowerLng;
+
+                var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+") limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
+                    if(err) {
+                        res.jsonp({error: true, errorMessage: String(err)});
+                    } else{
+                        coords.lat = query_params.lat;
+                        coords.lng = query_params.lng;
+                        result.rows.map(addDistance)
+                        result.rows.sort(distanceSort);
+                        res.jsonp({error:false, data: result.rows});
+                    }   
+                });
+            }
+        });
+    } else {
+        var upperLat = String(parseFloat(query_params['lat'])+radius);
+        var lowerLat = String(parseFloat(query_params['lat'])-radius);
+        whereClause += ' and lat < '+upperLat+' and lat > '+lowerLat;
+        var upperLng = String(parseFloat(query_params['lng'])+radius);
+        var lowerLng = String(parseFloat(query_params['lng'])-radius);
+        whereClause += ' and lng < '+upperLng+' and lng > '+lowerLng;
+
         var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+") limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
             if(err) {
                 res.jsonp({error: true, errorMessage: String(err)});
