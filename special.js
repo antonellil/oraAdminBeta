@@ -90,7 +90,7 @@ exports.getAll = function(req, res) {
                 whereClause += ' and lng < '+upperLng+' and lng > '+lowerLng;
 
                 //var  query = client.query("select * from specials "+whereClause+" order by point(lng,lat) <@> point("+gmLng+","+gmLat+") limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
-                var  query = client.query("select * from specials "+whereClause+" order by endvalue desc limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
+                var  query = client.query("select * from specials "+whereClause+" order by endvalue limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
                     if(err) {
                         res.jsonp({error: true, errorMessage: String(err)});
                     } else{
