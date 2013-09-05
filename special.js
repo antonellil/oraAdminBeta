@@ -115,7 +115,7 @@ exports.getAll = function(req, res) {
         var lowerLng = String(parseFloat(query_params['lng'])-radius);
         whereClause += ' and lng < '+upperLng+' and lng > '+lowerLng;
 
-        var sort = query_params['sort'] == 'distance' ? "point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")" : "endvalue";
+        var sort = query_params['sort'] == 'distance' ? "point(lng,lat) <@> point("+query_params['lng']+","+query_params['lat']+")" : (query_params['sort'] == 'start' ? "startvalue" : "endvalue");
         
         var  query = client.query("select * from specials "+whereClause+" order by "+sort+" limit "+query_params['limit']+" offset "+query_params['offset'],[],function(err,result){
             if(err) {
