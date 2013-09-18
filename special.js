@@ -7,7 +7,7 @@ var coords = {lat:null,lng:null};
 var gm = require('googlemaps');
 
 /* Connecting to PostgreSQL Database */
-var conString = process.env.DATABASE_URL || "postgres://soccerswim8:aaaaaaa1@localhost/mydb";
+var conString = process.env.DATABASE_URL;
 var client = new pg.Client(conString);
 client.connect();
  
